@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const app = express();
 const dotenv = require('dotenv').config();
+const users = require('./routes/users');
 
 // Bodyparser Middleware
 app.use(bodyParser.json());
@@ -18,6 +19,7 @@ mongoose.connect(mongoUrl, {
   .catch(err => console.log(err));
 
 // Routes
+app.use('/users', users);
 
 // Port
 const port = process.env.PORT || 3001;
