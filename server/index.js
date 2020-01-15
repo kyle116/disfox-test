@@ -4,8 +4,10 @@ const bodyParser = require('body-parser');
 const app = express();
 const dotenv = require('dotenv').config();
 const users = require('./routes/users');
+const cors = require('cors');
 
 // Bodyparser Middleware
+app.use(cors());
 app.use(bodyParser.json());
 
 // Connect to Mongo
