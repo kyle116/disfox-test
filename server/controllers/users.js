@@ -34,21 +34,17 @@ class UserController {
       }
       // if there's no user found, or they put a wrong password:
       if(!user || (user && !user.validPassword(req.body.password))) {
-        // stop here and let the client know that the info is incorrect:
         response = {success: false, message: 'Incorrect email/username or password.'};
         return res.status(500).send(response);
       }
-      // otherwise, use mongoose document's toObject() method to get a stripped down version of
-      // just the user's data (name, email etc) as a simple object:
-      const userData = user.toObject()
 
+      const userData = user.toObject();
       // remove the password from this object before creating the token:
       delete userData.password
 
       userData['iat'] = new Date().getTime() / 1000;
       userData['exp'] = (new Date().getTime() + 10000000) / 1000; // 1000 = 1 second
 
-      // create the token, embedding the user's info in the payload of the token:
       const token = jwt.sign(userData, process.env.SECRET_TOKEN);
       // send the token back to the client in our response:
       response = {success: true, message: 'Logged in successfully.', token};

@@ -16,6 +16,10 @@ class LandingPage extends Component {
 			<div>
 				<h1>Welcome</h1>
 				<Link to={'/signup'}>Sign Up Link</Link>
+
+				<h3>
+					<Link to={'/signin'}>Sign In Link</Link>
+				</h3>
 			</div>
 		);
 	}

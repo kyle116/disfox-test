@@ -25,7 +25,6 @@ class SignupPage extends Component {
 
 	handleInputChange(event) {
 		const target = event.target;
-		const value = target.type === 'checkbox' ? target.checked : target.value;
 		const name = target.name;
 		const signupData = this.state.signupData;
 		signupData[name] = value;
@@ -98,7 +97,7 @@ class SignupPage extends Component {
           </div>
           <div className="form-group">
             <label htmlFor="email">Email address</label>
-            <input name="email" type="email" className="form-control" value={this.state.signupData.email} onChange={this.handleInputChange} placeholder="Enter email"/>
+            <input name="email" className="form-control" value={this.state.signupData.email} onChange={this.handleInputChange} placeholder="Enter email"/>
             <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
           </div>
           <div className="form-group">

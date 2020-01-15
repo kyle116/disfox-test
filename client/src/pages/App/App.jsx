@@ -4,6 +4,7 @@ import {BrowserRouter as Router, Route} from 'react-router-dom';
 import userService from '../../services/userService';
 // Pages
 import SignupPage from '../SignupPage/SignupPage';
+import SigninPage from '../SigninPage/SigninPage';
 import LandingPage from '../LandingPage/LandingPage';
 // Stylesheets
 import './App.css';
@@ -41,6 +42,10 @@ class App extends Component {
         <Route
           exact path='/signup'
           render={(props) => <SignupPage {...props} setCurrentUser={this.setCurrentUser} />}
+        />
+        <Route
+          exact path='/signin'
+          render={(props) => <SigninPage {...props} setCurrentUser={this.setCurrentUser} />}
         />
       </div>
     </Router>
