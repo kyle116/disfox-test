@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { bool } from 'prop-types';
 // Services
 import userService from '../../services/userService';
 // Stylesheets
@@ -22,6 +23,7 @@ class SigninPage extends Component {
 
 	handleInputChange(event) {
 		const target = event.target;
+		const value = target.type === 'checkbox' ? target.checked : target.value;
 		const name = target.name;
 		const signinData = this.state.signinData;
 		signinData[name] = value;
@@ -62,7 +64,7 @@ class SigninPage extends Component {
       <div>
         <h2>Sign In</h2>
         {this.state.errorMsg ? (<div>{this.state.errorMsg}</div>) : null}
-
+        
         {this.state.currentUser ? (<h2>Already Signed In</h2>) : null}
 
         <form className="col-lg-4 offset-lg-4" onSubmit={this.handleSubmit}>

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 // Services
 import userService from '../../services/userService';
+// Components
+import Navbar from '../../components/Navbar/Navbar';
 // Pages
 import SignupPage from '../SignupPage/SignupPage';
 import SigninPage from '../SigninPage/SigninPage';
@@ -34,6 +36,7 @@ class App extends Component {
   render() {
   return (
     <Router>
+      <Navbar />
       <div className="App">
         <Route 
           exact path='/' 
