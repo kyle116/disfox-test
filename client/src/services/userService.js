@@ -9,9 +9,22 @@ class UserService {
     });
   }
 
-  createUser(userData) {
-    return this.request({method: 'POST', url: '/users/new', data: userData})
+  signupUser(userData) {
+    return this.request({method: 'POST', url: '/users/signup', data: userData})
       .then((response) => response.data.user);
+  }
+
+  signinUser(signinCredentials) {
+    return this.request({method: 'POST', url: '/users/signin', data: signinCredentials})
+      .then((response) => {
+        if(response.data.success) {
+          const token = response.data.token
+          this.setToken(token)
+          return jwtDecode(token);
+        } else {
+          return response.data
+        }
+      });
   }
 
   // JWT functions

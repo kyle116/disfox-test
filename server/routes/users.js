@@ -5,8 +5,8 @@ const usersCtrl = require('../controllers/users');
 
 // Route: /users
 // Public Routes
-router.post('/new', usersCtrl.signup);
-// router.post('/signin', usersCtrl.signin);
+router.post('/signup', usersCtrl.signup);
+router.post('/signin', usersCtrl.signin);
 
 
 module.exports = router;

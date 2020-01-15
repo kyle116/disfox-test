@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
+// Services
+import userService from '../../services/userService';
 // Pages
 import SignupPage from '../SignupPage/SignupPage';
 import LandingPage from '../LandingPage/LandingPage';
@@ -10,7 +12,22 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      currentUser: userService.getCurrentUser()
     }
+    this.setCurrentUser = this.setCurrentUser.bind(this);
+    this.removeCurrentUser = this.removeCurrentUser.bind(this);
+  }
+  setCurrentUser(user) {
+    this.setState({
+      currentUser: user
+    });
+  }
+
+  removeCurrentUser() {
+    userService.clearToken();
+    this.setState({
+      currentUser: null
+    });
   }
 
   render() {
