@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const dotenv = require('dotenv').config();
 const users = require('./routes/users');
+const reminders = require('./routes/reminders');
 const cors = require('cors');
 
 // Bodyparser Middleware
@@ -22,6 +23,7 @@ mongoose.connect(mongoUrl, {
 
 // Routes
 app.use('/users', users);
+app.use('/reminders', reminders);
 
 // Port
 const port = process.env.PORT || 3001;

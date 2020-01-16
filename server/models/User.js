@@ -6,7 +6,8 @@ const userSchema = new mongoose.Schema({
 	lastName: String,
 	username: { type: String, required: [true, 'Username field cannot be blank'], unique: true },
 	email: { type: String, required: [true, 'Email field cannot be blank'], unique: true },
-	password: { type: String, select: false, required: [true, 'Password field cannot be blank'], unique: true }
+	password: { type: String, select: false, required: [true, 'Password field cannot be blank'], unique: true },
+  reminders: [{type: mongoose.Schema.Types.ObjectId, ref: 'Reminder'}]
 });
 
 // hash the PW and encrypt it
