@@ -36,7 +36,7 @@ class App extends Component {
   render() {
   return (
     <Router>
-      <Navbar />
+      <Navbar currentUser={this.state.currentUser} removeCurrentUser={this.removeCurrentUser} />
       <div className="App">
         <Route 
           exact path='/' 

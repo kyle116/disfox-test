@@ -9,13 +9,25 @@ class Navbar extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-      currentUser: userService.getCurrentUser()
+      currentUser: this.props.currentUser
 		}    
-    this.setCurrentUser = this.setCurrentUser.bind(this);
+    this.removeCurrentUser = this.removeCurrentUser.bind(this);
 	}
 
-  setCurrentUser() {
-    this.props.setCurrentUser(this.state.currentUser);
+	static getDerivedStateFromProps(nextProps, prevState){
+		// A user logs in
+		if(!prevState.currentUser && nextProps.currentUser) {
+			return { currentUser: nextProps.currentUser };
+		}
+		// A user logs out
+		if(prevState.currentUser && !nextProps.currentUser) {
+			return { currentUser: nextProps.currentUser };
+		}
+	  else return null; // Triggers no change in the state
+	}
+
+  removeCurrentUser() {
+    this.props.removeCurrentUser(this.state.currentUser);
   }
 
   render() {
@@ -41,6 +53,14 @@ class Navbar extends Component {
 			        <a className="nav-link" href="#">About</a>
 			      </li>
 			    </ul>
+
+			    {this.state.currentUser && 
+						<ul className="navbar-nav ml-auto">
+						  <li className="nav-item">
+						  	<Link className="nav-link" to={'/'} onClick={this.removeCurrentUser}>Sign Out</Link>
+						  </li>
+						</ul>
+					}
 			  </div>
 			</nav>
     )

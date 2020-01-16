@@ -44,7 +44,6 @@ class SigninPage extends Component {
 
     try {
       const signinUser = await userService.signinUser(signinCredentials);
-      console.log(signinUser);
       // Signin, sets current user to state, then sets App.js state with currentUser to use globally as props
       this.setState({
         currentUser: signinUser
