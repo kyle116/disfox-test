@@ -9,7 +9,8 @@ var response = {
   reminder: null
 };
 
-// var date = new Date(2020, 0, 15, 22, 30, 0);
+// var date = new Date(2020, 0, 15, 22, 42, 0);
+// console.log('date', date);
  
 // var emailReminder = schedule.scheduleJob(/* reminder id, */ date, function(){
 //   console.log('Email sent');
@@ -19,7 +20,7 @@ var response = {
 //     secure: true,
 //     auth: {
 //       user: 'thepostalservice@mail.com',
-//       pass: 'password111'
+//       pass: process.env.EMAIL_PASS
 //     }
 //   });
 
@@ -43,6 +44,11 @@ var response = {
 // my_job.cancel();
 // console.log('schedule.scheduledJobs', schedule.scheduledJobs)
 
+// Create reminder front end
+// Link reminder to user
+// Create delete reminder function
+// Associate email reminder to signed in user
+
 class ReminderController {
   // Route: /reminders/new
   // Access: public
@@ -51,8 +57,13 @@ class ReminderController {
       console.log('req.body', req.body);
       if (err) return res.status(500).send(err.message);
 
+      // UTC Date
       var date = reminder.reminderDate;
-      var emailReminder = schedule.scheduleJob(/* reminder id, */ date, function(){
+      var comparedate = new Date(2020, 0, 15, 22, 49, 0);
+      console.log('date', date);
+      console.log('comparedate', comparedate);
+      // Scheduled email
+      var emailReminder = schedule.scheduleJob(reminder._id, date, function(){
         console.log('Email sent');
         var transporter = nodemailer.createTransport({
           host: 'smtp.mail.com',
@@ -60,15 +71,15 @@ class ReminderController {
           secure: true,
           auth: {
             user: 'thepostalservice@mail.com',
-            pass: 'password111'
+            pass: process.env.EMAIL_PASS
           }
         });
 
         var mailOptions = {
           from: 'thepostalservice@mail.com',
           to: 'kyle11611@yahoo.com',
-          subject: 'Test email from Kyle',
-          text: 'That was easy!'
+          subject: 'Take the email',
+          text: 'Take it!'
         };
 
         transporter.sendMail(mailOptions, function(error, info){
