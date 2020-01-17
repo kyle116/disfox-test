@@ -22,6 +22,7 @@ class App extends Component {
     this.setCurrentUser = this.setCurrentUser.bind(this);
     this.removeCurrentUser = this.removeCurrentUser.bind(this);
   }
+  // Set and remove current user are passed into appropriate components where applicable
   setCurrentUser(user) {
     this.setState({
       currentUser: user

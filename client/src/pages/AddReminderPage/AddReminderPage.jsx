@@ -17,8 +17,7 @@ class AddReminderPage extends Component {
         userId: userService.getCurrentUser()._id
       },
       currentUser: this.props.currentUser,
-      reminder: '',
-      errorMsg: ''
+      reminder: ''
 		}    
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -53,8 +52,6 @@ class AddReminderPage extends Component {
     return (
       <div>
         <h2>Create Reminder</h2>
-        {this.state.errorMsg ? (<div>{this.state.errorMsg}</div>) : null}
-
         <form className="col-lg-4 offset-lg-4" onSubmit={this.handleSubmit}>
           <div className="form-group">
             <label htmlFor="reminderTitle">Reminder</label>

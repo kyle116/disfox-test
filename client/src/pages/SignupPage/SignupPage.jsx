@@ -57,12 +57,12 @@ class SignupPage extends Component {
 		  console.error('signup', error);
 		}
 
+    // After signup, signin will be done to avoid double sign in hassle
     try {
       const signinUser = await userService.signinUser(signinCredentials);
-      // Signin, sets current user to state, then sets App.js state with currentUser to use globally as props
-        this.setState({
-          currentUser: signinUser
-        }, this.setCurrentUser);
+      this.setState({
+        currentUser: signinUser
+      }, this.setCurrentUser);
       this.props.history.push('/');
     } catch(error) {
       console.error('signin', error);

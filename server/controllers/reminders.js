@@ -37,9 +37,7 @@ class ReminderController {
       Reminder.create(reminderData, (reminderErr, reminder) => {
         if (reminderErr) return res.status(500).send(reminderErr.message);
 
-        // UTC Date
         var date = reminder.reminderDate;
-        var comparedate = new Date(2020, 0, 16, 16, 59, 0);
         // Scheduled email
         var emailReminder = schedule.scheduleJob(reminder._id.toString(), date, function() {
           var transporter = nodemailer.createTransport({
@@ -56,7 +54,7 @@ class ReminderController {
             from: 'thepostalservice@mail.com',
             to: reminderData.email,
             subject: `REMINDER: ${reminder.title}`,
-            text: `This is an automated email reminder for "${reminder.title}" set at ${new Date(reminder.reminderDate)}`
+            text: `This is an automated email reminder for "${reminder.title}" set at ${new Date(date)}`
           };
 
           transporter.sendMail(mailOptions, function(error, info){
@@ -96,7 +94,9 @@ class ReminderController {
 
         // Cancels email reminder
         var emailReminder = schedule.scheduledJobs[req.params.reminderId];
-        emailReminder.cancel();
+        if(emailReminder) {
+          emailReminder.cancel();
+        }
 
         user.save();
         response = {success: true, message: 'Reminder deleted.', deletedReminder: deletedReminder};

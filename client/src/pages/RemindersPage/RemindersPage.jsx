@@ -33,6 +33,7 @@ class RemindersPage extends Component {
     try {
       const deletedReminder = await reminderService.deleteReminder(reminderId, this.state.currentUser._id);
       
+      // Updates the reminders in state after deleting
       reminderService.getReminders(this.state.currentUser._id).then(reminders => {
         this.setState({
           reminders: reminders
