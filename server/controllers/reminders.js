@@ -1,4 +1,5 @@
 const Reminder = require('../models/Reminder');
+const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const schedule = require('node-schedule');
 const nodemailer = require('nodemailer');
@@ -53,47 +54,54 @@ class ReminderController {
   // Route: /reminders/new
   // Access: public
   create(req, res) {
-    Reminder.create(req.body, (err, reminder) => {
-      console.log('req.body', req.body);
-      if (err) return res.status(500).send(err.message);
+    User.findById(req.body.userId, (err, user) => {
+      Reminder.create(req.body, (err, reminder) => {
+        console.log('req.body', req.body);
+        if (err) return res.status(500).send(err.message);
 
-      // UTC Date
-      var date = reminder.reminderDate;
-      var comparedate = new Date(2020, 0, 15, 22, 49, 0);
-      console.log('date', date);
-      console.log('comparedate', comparedate);
-      // Scheduled email
-      var emailReminder = schedule.scheduleJob(reminder._id, date, function(){
-        console.log('Email sent');
-        var transporter = nodemailer.createTransport({
-          host: 'smtp.mail.com',
-          port: 465,
-          secure: true,
-          auth: {
-            user: 'thepostalservice@mail.com',
-            pass: process.env.EMAIL_PASS
-          }
+        // UTC Date
+        var date = reminder.reminderDate;
+        var comparedate = new Date(2020, 0, 16, 16, 59, 0);
+        console.log('date', date);
+        console.log('comparedate', comparedate);
+        console.log('reminder', JSON.stringify(reminder._id));
+        // Scheduled email
+        var emailReminder = schedule.scheduleJob(JSON.stringify(reminder._id), date, function() {
+          console.log('Email sent');
+          var transporter = nodemailer.createTransport({
+            host: 'smtp.mail.com',
+            port: 465,
+            secure: true,
+            auth: {
+              user: 'thepostalservice@mail.com',
+              pass: process.env.EMAIL_PASS
+            }
+          });
+
+          var mailOptions = {
+            from: 'thepostalservice@mail.com',
+            to: 'kyle11611@yahoo.com',
+            subject: 'Take the email',
+            text: date
+          };
+
+          transporter.sendMail(mailOptions, function(error, info){
+            if (error) {
+              console.log('email', error);
+            } else {
+              console.log('Email sent: ' + info.response);
+            }
+          });
         });
 
-        var mailOptions = {
-          from: 'thepostalservice@mail.com',
-          to: 'kyle11611@yahoo.com',
-          subject: 'Take the email',
-          text: 'Take it!'
-        };
+        user.reminders.push(reminder);
+        user.save();
 
-        transporter.sendMail(mailOptions, function(error, info){
-          if (error) {
-            console.log('email', error);
-          } else {
-            console.log('Email sent: ' + info.response);
-          }
-        });
+        response = {success: true, message: 'Reminder created.', reminder: reminder, user: user};
+        return res.status(200).json(response);
       });
-
-      response = {success: true, message: 'Reminder created.', reminder: reminder};
-      return res.status(200).json(response);
     });
+    
   }
 }
 
