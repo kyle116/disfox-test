@@ -10,49 +10,25 @@ var response = {
   reminder: null
 };
 
-// var date = new Date(2020, 0, 15, 22, 42, 0);
-// console.log('date', date);
- 
-// var emailReminder = schedule.scheduleJob(/* reminder id, */ date, function(){
-//   console.log('Email sent');
-//   var transporter = nodemailer.createTransport({
-//     host: 'smtp.mail.com',
-//     port: 465,
-//     secure: true,
-//     auth: {
-//       user: 'thepostalservice@mail.com',
-//       pass: process.env.EMAIL_PASS
-//     }
-//   });
-
-//   var mailOptions = {
-//     from: 'thepostalservice@mail.com',
-//     to: 'kyle11611@yahoo.com',
-//     subject: 'Test email from Kyle',
-//     text: 'That was easy!'
-//   };
-
-//   transporter.sendMail(mailOptions, function(error, info){
-//     if (error) {
-//       console.log('email', error);
-//     } else {
-//       console.log('Email sent: ' + info.response);
-//     }
-//   });
-// });
-
-// var my_job = schedule.scheduledJobs['123'];
-// my_job.cancel();
-// console.log('schedule.scheduledJobs', schedule.scheduledJobs)
-
 // Create reminder front end
 // Link reminder to user
 // Create delete reminder function
 // Associate email reminder to signed in user
 
 class ReminderController {
+  // Route: /reminders/
+  // Access: private
+  get(req, res) {
+    User.findById(req.params.userId).populate('reminders').exec((err, user) => {
+      if (err) return res.status(500).send(err.message);
+
+      response = {success: true, message: 'Reminders for current user.', reminders: user.reminders};
+      return res.status(200).json(response);
+    });
+  }
+
   // Route: /reminders/new
-  // Access: public
+  // Access: private
   create(req, res) {
     User.findById(req.body.userId, (userErr, user) => {
       if (userErr) return res.status(500).send(userErr.message);
@@ -72,7 +48,7 @@ class ReminderController {
         console.log('comparedate', comparedate);
         console.log('reminder', JSON.stringify(reminder._id));
         // Scheduled email
-        var emailReminder = schedule.scheduleJob(JSON.stringify(reminder._id), date, function() {
+        var emailReminder = schedule.scheduleJob(reminder._id.toString(), date, function() {
           console.log('Email sent');
           var transporter = nodemailer.createTransport({
             host: 'smtp.mail.com',
@@ -108,7 +84,31 @@ class ReminderController {
         return res.status(200).json(response);
       });
     });
-    
+  }
+
+  delete(req, res) {
+    User.findById(req.params.userId).populate('reminders').exec((userErr, user) => {
+      if (userErr) return res.status(500).send(err);
+
+      Reminder.findByIdAndRemove(req.params.reminderId, (reminderErr, deletedReminder) => {
+        if (reminderErr) return res.status(500).send(err);
+
+        for(var i = 0; i < user.reminders.length; i++) {
+          if (user.reminders[i]._id.toString() === deletedReminder._id.toString()) {
+            user.reminders.splice(i, 1)
+            break
+          }
+        }
+
+        // Cancels email reminder
+        var emailReminder = schedule.scheduledJobs[req.params.reminderId];
+        emailReminder.cancel();
+
+        user.save();
+        response = {success: true, message: 'Reminder deleted.', deletedReminder: deletedReminder};
+        return res.status(200).json(response);
+      });
+    });
   }
 }
 

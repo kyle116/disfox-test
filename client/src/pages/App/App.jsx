@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {BrowserRouter as Router, Route} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 // Services
 import userService from '../../services/userService';
 // Components
@@ -9,6 +9,7 @@ import SignupPage from '../SignupPage/SignupPage';
 import SigninPage from '../SigninPage/SigninPage';
 import LandingPage from '../LandingPage/LandingPage';
 import AddReminderPage from '../AddReminderPage/AddReminderPage';
+import RemindersPage from '../RemindersPage/RemindersPage';
 // Stylesheets
 import './App.css';
 
@@ -51,10 +52,16 @@ class App extends Component {
           exact path='/signin'
           render={(props) => <SigninPage {...props} setCurrentUser={this.setCurrentUser} />}
         />
-        <Route
-          exact path='/reminders/new'
-          render={(props) => <AddReminderPage {...props} setCurrentUser={this.setCurrentUser} />}
-        />
+        <Switch>
+          <Route
+            exact path='/reminders/new'
+            render={(props) => <AddReminderPage {...props} />}
+          />
+          <Route
+            exact path='/reminders/:userId'
+            render={(props) => <RemindersPage {...props} />}
+          />
+        </Switch>
       </div>
     </Router>
   );

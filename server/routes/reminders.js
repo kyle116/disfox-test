@@ -4,7 +4,8 @@ const remindersCtrl = require('../controllers/reminders');
 
 // Route: /reminders
 // Private Routes
+router.get('/:userId', remindersCtrl.get);
 router.post('/new', remindersCtrl.create);
-// router.post('/signin', usersCtrl.signin);
+router.delete('/delete/:reminderId/:userId', remindersCtrl.delete);
 
 module.exports = router;

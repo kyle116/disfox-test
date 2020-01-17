@@ -14,17 +14,13 @@ class ReminderService {
       .then((response) => response.data.reminder);
   }
 
-  signinUser(signinCredentials) {
-    return this.request({method: 'POST', url: '/reminders/signin', data: signinCredentials})
-      .then((response) => {
-        if(response.data.success) {
-          const token = response.data.token
-          this.setToken(token)
-          return jwtDecode(token);
-        } else {
-          return response.data
-        }
-      });
+  getReminders(userId) {
+    return this.request({method: 'GET', url: `/reminders/${userId}`})
+      .then((response) => response.data.reminders);
+  }
+  deleteReminder(reminderId, userId) {
+    return this.request({method: 'DELETE', url: `/reminders/delete/${reminderId}/${userId}`})
+      .then((response) => response.data.reminder);
   }
 }
 

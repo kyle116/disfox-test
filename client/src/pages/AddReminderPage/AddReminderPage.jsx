@@ -6,7 +6,7 @@ import userService from '../../services/userService';
 // Stylesheets
 import './AddReminderPage.css';
 
-class ReminderPage extends Component {
+class AddReminderPage extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -22,7 +22,6 @@ class ReminderPage extends Component {
 		}    
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.setCurrentUser = this.setCurrentUser.bind(this);
 	}
 
 	handleInputChange(event) {
@@ -41,19 +40,14 @@ class ReminderPage extends Component {
 
     try {
       const createdReminder = await reminderService.createReminder(reminderData);
-      // reminder, sets current user to state, then sets App.js state with currentUser to use globally as props
       this.setState({
         reminder: createdReminder
       });
-      this.props.history.push('/');
+      this.props.history.push(`/reminders/${this.state.currentUser._id}`);
     } catch(error) {
       console.log(error);
     }
 	}
-
-  setCurrentUser() {
-    this.props.setCurrentUser(this.state.currentUser);
-  }
 
   render() {
     return (
@@ -83,4 +77,4 @@ class ReminderPage extends Component {
   }
 }
 
-export default ReminderPage;
+export default AddReminderPage;
