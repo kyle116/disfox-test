@@ -8,6 +8,7 @@ import Navbar from '../../components/Navbar/Navbar';
 import SignupPage from '../SignupPage/SignupPage';
 import SigninPage from '../SigninPage/SigninPage';
 import LandingPage from '../LandingPage/LandingPage';
+import AddReminderPage from '../AddReminderPage/AddReminderPage';
 // Stylesheets
 import './App.css';
 
@@ -49,6 +50,10 @@ class App extends Component {
         <Route
           exact path='/signin'
           render={(props) => <SigninPage {...props} setCurrentUser={this.setCurrentUser} />}
+        />
+        <Route
+          exact path='/reminders/new'
+          render={(props) => <AddReminderPage {...props} setCurrentUser={this.setCurrentUser} />}
         />
       </div>
     </Router>

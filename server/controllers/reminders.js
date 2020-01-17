@@ -54,10 +54,16 @@ class ReminderController {
   // Route: /reminders/new
   // Access: public
   create(req, res) {
-    User.findById(req.body.userId, (err, user) => {
-      Reminder.create(req.body, (err, reminder) => {
-        console.log('req.body', req.body);
-        if (err) return res.status(500).send(err.message);
+    User.findById(req.body.userId, (userErr, user) => {
+      if (userErr) return res.status(500).send(userErr.message);
+
+      var reminderData = {
+        title: req.body.reminderTitle,
+        reminderDate: new Date(req.body.date + ' ' + req.body.time)
+      };
+
+      Reminder.create(reminderData, (reminderErr, reminder) => {
+        if (reminderErr) return res.status(500).send(reminderErr.message);
 
         // UTC Date
         var date = reminder.reminderDate;
@@ -82,7 +88,7 @@ class ReminderController {
             from: 'thepostalservice@mail.com',
             to: 'kyle11611@yahoo.com',
             subject: 'Take the email',
-            text: date
+            text: JSON.stringify(date)
           };
 
           transporter.sendMail(mailOptions, function(error, info){
@@ -94,6 +100,7 @@ class ReminderController {
           });
         });
 
+        // Associate reminder to user
         user.reminders.push(reminder);
         user.save();
 

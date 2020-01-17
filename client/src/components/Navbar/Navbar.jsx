@@ -49,6 +49,9 @@ class Navbar extends Component {
 			      <li className="nav-item">
 			        <Link className="nav-link" to={'/signin'}>Sign In</Link>
 			      </li>
+			      <li className="nav-item">
+			        <Link className="nav-link" to={'/reminders/new'}>Add Reminders</Link>
+			      </li>
 			    </ul>
 
 			    {this.state.currentUser && 
