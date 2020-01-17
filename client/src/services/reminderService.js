@@ -1,25 +1,34 @@
 import axios from 'axios';
+import userService from './userService';
 
 class ReminderService {
   constructor() {
+    // token is passed into headers to access protected routes
     this.request = axios.create({
       baseURL: 'http://localhost:3001',
-      headers: {}
+      headers: {
+        common: {
+          token: userService.getToken()
+        }
+      }
     });
   }
 
   createReminder(reminderData) {
     return this.request({method: 'POST', url: '/reminders/new', data: reminderData})
-      .then((response) => response.data.reminder);
+      .then((response) => response.data.reminder)
+      .catch(err => console.log(err));
   }
 
   getReminders(userId) {
     return this.request({method: 'GET', url: `/reminders/${userId}`})
-      .then((response) => response.data.reminders);
+      .then((response) => response.data.reminders)
+      .catch(err => console.log(err));
   }
   deleteReminder(reminderId, userId) {
     return this.request({method: 'DELETE', url: `/reminders/delete/${reminderId}/${userId}`})
-      .then((response) => response.data);
+      .then((response) => response.data)
+      .catch(err => console.log(err));
   }
 }
 

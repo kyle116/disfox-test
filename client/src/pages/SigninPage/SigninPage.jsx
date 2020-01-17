@@ -43,11 +43,19 @@ class SigninPage extends Component {
 
     try {
       const signinUser = await userService.signinUser(signinCredentials);
-      // Signin, sets current user to state, then sets App.js state with currentUser to use globally as props
-      this.setState({
-        currentUser: signinUser
-      }, this.setCurrentUser);
-      this.props.history.push('/');
+
+      console.log('signinUser', signinUser)
+      if(signinUser) {
+        // Signin, sets current user to state, then sets App.js state with currentUser to use globally as props
+        this.setState({
+          currentUser: signinUser
+        }, this.setCurrentUser);
+        this.props.history.push('/');
+      } else {
+        this.setState({
+          errorMsg: 'Incorrect username or password. Please try again'
+        });
+      }
     } catch(error) {
       console.log(error);
     }
@@ -61,23 +69,24 @@ class SigninPage extends Component {
     return (
       <div>
         <h2>Sign In</h2>
-        {this.state.errorMsg ? (<div>{this.state.errorMsg}</div>) : null}
+        {this.state.errorMsg ? (<div className="alert alert-danger col-lg-4 offset-lg-4" role="alert">{this.state.errorMsg}</div>) : null}
         
-        {this.state.currentUser ? (<h2>Already Signed In</h2>) : null}
-
-        <form className="col-lg-4 offset-lg-4" onSubmit={this.handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="signin">Username or Email</label>
-            <input name="signin" type="text" className="form-control" value={this.state.signinData.signin} onChange={this.handleInputChange} placeholder="Username or Email"/>
-          </div>
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <input name="password" type="password" className="form-control" value={this.state.signinData.password} onChange={this.handleInputChange} placeholder="Password"/>
-          </div>
-          <div className="form-group">
-            <button type="submit" className="btn btn-primary btn-block">Sign In</button>
-          </div>
-        </form>
+        {this.state.currentUser ? 
+          (<h2>Already Signed In</h2>) : 
+          (<form className="col-lg-4 offset-lg-4" onSubmit={this.handleSubmit}>
+            <div className="form-group">
+              <label htmlFor="signin">Username or Email</label>
+              <input name="signin" type="text" className="form-control" value={this.state.signinData.signin} onChange={this.handleInputChange} placeholder="Username or Email"/>
+            </div>
+            <div className="form-group">
+              <label htmlFor="password">Password</label>
+              <input name="password" type="password" className="form-control" value={this.state.signinData.password} onChange={this.handleInputChange} placeholder="Password"/>
+            </div>
+            <div className="form-group">
+              <button type="submit" className="btn btn-primary btn-block">Sign In</button>
+            </div>
+          </form>)
+        }
       </div>
     )
   }

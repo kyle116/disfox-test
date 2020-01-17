@@ -41,21 +41,25 @@ class Navbar extends Component {
 			      <li className="nav-item">
 			        <Link className="nav-link" to={'/'}>Home</Link>
 			      </li>
-			      <li className="nav-item">
-			      	<Link className="nav-link" to={'/signup'}>Sign Up</Link>
-			      </li>
-			      <li className="nav-item">
-			        <Link className="nav-link" to={'/signin'}>Sign In</Link>
-			      </li>
-			      {this.state.currentUser &&
-			      (<React.Fragment>
-				      <li className="nav-item">
-				        <Link className="nav-link" to={`/reminders/${this.state.currentUser._id}`}>Reminders</Link>
-				      </li>
-				      <li className="nav-item">
-				        <Link className="nav-link" to={'/reminders/new'}>Add Reminders</Link>
-				      </li>
-			      </React.Fragment>)}
+			      {!this.state.currentUser ? (
+							<React.Fragment>
+				      	<li className="nav-item">
+					      	<Link className="nav-link" to={'/signup'}>Sign Up</Link>
+					      </li>
+					      <li className="nav-item">
+					        <Link className="nav-link" to={'/signin'}>Sign In</Link>
+					      </li>
+				      </React.Fragment>
+			      ) : (
+				      <React.Fragment>
+					      <li className="nav-item">
+					        <Link className="nav-link" to={`/reminders/${this.state.currentUser._id}`}>Reminders</Link>
+					      </li>
+					      <li className="nav-item">
+					        <Link className="nav-link" to={'/reminders/new'}>Add Reminders</Link>
+					      </li>
+				      </React.Fragment>
+			      )}
 			    </ul>
 
 			    {this.state.currentUser && 

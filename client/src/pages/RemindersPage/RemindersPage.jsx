@@ -25,7 +25,8 @@ class RemindersPage extends Component {
       this.setState({
         reminders: reminders
       });
-    });
+    })
+    .catch(err => console.error(err));
   }
 
   async deleteReminder(reminderId) {

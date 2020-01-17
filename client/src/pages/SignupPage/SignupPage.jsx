@@ -42,9 +42,16 @@ class SignupPage extends Component {
     var signinCredentials = {};
 		try {
 		  const signupUser = await userService.signupUser(signupData);
-      signinCredentials = {
-        email: signupUser.email,
-        password: this.state.signupData.password
+      if(signupUser) {
+        signinCredentials = {
+          email: signupUser.email,
+          password: this.state.signupData.password
+        }
+      } else {
+        this.setState({
+          errorMsg: 'Username or Email has already been used please try again'
+        });
+        return;
       }
 		} catch(error) {
 		  console.error('signup', error);
@@ -80,7 +87,7 @@ class SignupPage extends Component {
     return (
       <div>
         <h2>Sign Up</h2>
-        {this.state.errorMsg ? (<div>{this.state.errorMsg}</div>) : null}
+        {this.state.errorMsg ? (<div className="alert alert-danger col-lg-4 offset-lg-4" role="alert">{this.state.errorMsg}</div>) : null}
 
         <form className="col-lg-4 offset-lg-4" onSubmit={this.handleSubmit}>
           <div className="form-group">

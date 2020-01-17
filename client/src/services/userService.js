@@ -11,7 +11,8 @@ class UserService {
 
   signupUser(userData) {
     return this.request({method: 'POST', url: '/users/signup', data: userData})
-      .then((response) => response.data.user);
+      .then((response) => response.data.user)
+      .catch(err => console.log(err));
   }
 
   signinUser(signinCredentials) {
@@ -24,7 +25,8 @@ class UserService {
         } else {
           return response.data
         }
-      });
+      })
+      .catch(err => console.log(err));
   }
 
   // JWT functions
