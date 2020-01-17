@@ -61,8 +61,8 @@ class RemindersPage extends Component {
               return (
                 <tr className={`table-${idx % 2 === 0 ? 'secondary' : 'primary'}`} key={idx}>
                   <th scope="row">{reminder.title}</th>
-                  <td>{reminder.reminderDate}</td>
-                  <td>{reminder.reminderDate}</td>
+                  <td>{new Date(reminder.reminderDate).toDateString()}</td>
+                  <td>{new Date(reminder.reminderDate).toTimeString()}</td>
                   <td>
                     <button type="button" className="btn btn-danger" onClick={() => this.deleteReminder(reminder._id)}>Delete Reminder</button>
                   </td>

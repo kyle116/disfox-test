@@ -55,7 +55,7 @@ class App extends Component {
         <Switch>
           <Route
             exact path='/reminders/new'
-            render={(props) => <AddReminderPage {...props} />}
+            render={(props) => <AddReminderPage {...props} currentUser={this.state.currentUser} />}
           />
           <Route
             exact path='/reminders/:userId'

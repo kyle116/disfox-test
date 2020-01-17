@@ -13,9 +13,10 @@ class AddReminderPage extends Component {
         reminderTitle: '',
         date: '',
         time: '',
+        email: this.props.currentUser.email,
         userId: userService.getCurrentUser()._id
       },
-      currentUser: userService.getCurrentUser(),
+      currentUser: this.props.currentUser,
       reminder: '',
       errorMsg: ''
 		}    
@@ -66,6 +67,10 @@ class AddReminderPage extends Component {
           <div className="form-group">
             <label htmlFor="time">Time</label>
             <input name="time" type="time" className="form-control" value={this.state.reminderData.time} onChange={this.handleInputChange} placeholder="Time"/>
+          </div>
+          <div className="form-group">
+            <label htmlFor="email">Send To</label>
+            <input name="email" type="email" className="form-control" defaultValue={this.state.reminderData.email} onChange={this.handleInputChange} placeholder="Email"/>
           </div>
           <div className="form-group">
             <button type="submit" className="btn btn-primary btn-block">Add Reminder</button>

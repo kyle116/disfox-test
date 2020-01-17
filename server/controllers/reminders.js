@@ -30,7 +30,8 @@ class ReminderController {
 
       var reminderData = {
         title: req.body.reminderTitle,
-        reminderDate: new Date(req.body.date + ' ' + req.body.time)
+        reminderDate: new Date(req.body.date + ' ' + req.body.time),
+        email: req.body.email
       };
 
       Reminder.create(reminderData, (reminderErr, reminder) => {
@@ -53,9 +54,9 @@ class ReminderController {
 
           var mailOptions = {
             from: 'thepostalservice@mail.com',
-            to: 'kyle11611@yahoo.com',
-            subject: 'Take the email',
-            text: JSON.stringify(date)
+            to: reminderData.email,
+            subject: `REMINDER: ${reminder.title}`,
+            text: `This is an automated email reminder for "${reminder.title}" set at ${new Date(reminder.reminderDate)}`
           };
 
           transporter.sendMail(mailOptions, function(error, info){
