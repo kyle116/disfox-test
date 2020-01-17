@@ -11,7 +11,7 @@ var response = {
 };
 
 class ReminderController {
-  // Route: /reminders/
+  // Route: /reminders/:userId
   // Access: private
   get(req, res) {
     User.findById(req.params.userId).populate('reminders').exec((err, user) => {
@@ -77,6 +77,8 @@ class ReminderController {
     });
   }
 
+  // Route: /reminders/delete/:reminderId/:userId
+  // Access: private
   delete(req, res) {
     User.findById(req.params.userId).populate('reminders').exec((userErr, user) => {
       if (userErr) return res.status(500).send(err);
