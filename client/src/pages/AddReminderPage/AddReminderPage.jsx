@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { bool } from 'prop-types';
 // Services
 import reminderService from '../../services/reminderService';
 import userService from '../../services/userService';

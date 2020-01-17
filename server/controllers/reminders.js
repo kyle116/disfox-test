@@ -10,11 +10,6 @@ var response = {
   reminder: null
 };
 
-// Create reminder front end
-// Link reminder to user
-// Create delete reminder function
-// Associate email reminder to signed in user
-
 class ReminderController {
   // Route: /reminders/
   // Access: private
@@ -44,12 +39,8 @@ class ReminderController {
         // UTC Date
         var date = reminder.reminderDate;
         var comparedate = new Date(2020, 0, 16, 16, 59, 0);
-        console.log('date', date);
-        console.log('comparedate', comparedate);
-        console.log('reminder', JSON.stringify(reminder._id));
         // Scheduled email
         var emailReminder = schedule.scheduleJob(reminder._id.toString(), date, function() {
-          console.log('Email sent');
           var transporter = nodemailer.createTransport({
             host: 'smtp.mail.com',
             port: 465,

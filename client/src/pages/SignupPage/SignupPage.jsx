@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { bool } from 'prop-types';
 // Services
 import userService from '../../services/userService';
 // Stylesheets
@@ -113,11 +112,5 @@ class SignupPage extends Component {
     )
   }
 }
-
-SignupPage.defaultProps = {
-};
-
-SignupPage.propTypes = {
-};
 
 export default SignupPage;

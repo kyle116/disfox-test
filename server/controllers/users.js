@@ -8,21 +8,21 @@ var response = {
 };
 
 class UserController {
-  // Route: /users/new
+  // Route: /users/signup
   // Access: public
   signup(req, res) {
     User.create(req.body, (err, user) => {
-      console.log('req.body', req.body)
       if (err) return res.status(500).send(err.message);
       response = {success: true, message: 'User created.', user: user};
       return res.status(200).json(response);
     });
   }
 
+  // Route: /users/signin
+  // Access: public
   signin(req, res) {
     // first, find user by the email/username in the request body.
     const loginData = req.body.email ? {email: req.body.email} : {username: req.body.username};
-    console.log(loginData);
     // When retrieving the user from database, include the password for authentication:
     User.findOne(loginData, '+password', (err, user) => {
       // Error check

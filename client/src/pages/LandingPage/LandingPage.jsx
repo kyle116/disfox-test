@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import {BrowserRouter as Router, Route, Redirect, Link} from 'react-router-dom';
-// Pages
-import SignupPage from '../SignupPage/SignupPage';
 // Stylesheets
 import './LandingPage.css';
 

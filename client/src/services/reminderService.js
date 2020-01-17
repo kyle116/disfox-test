@@ -1,5 +1,4 @@
 import axios from 'axios';
-import jwtDecode from 'jwt-decode';
 
 class ReminderService {
   constructor() {
@@ -20,7 +19,7 @@ class ReminderService {
   }
   deleteReminder(reminderId, userId) {
     return this.request({method: 'DELETE', url: `/reminders/delete/${reminderId}/${userId}`})
-      .then((response) => response.data.reminder);
+      .then((response) => response.data);
   }
 }
 

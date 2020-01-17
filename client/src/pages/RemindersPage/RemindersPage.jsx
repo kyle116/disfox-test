@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { bool } from 'prop-types';
 // Services
 import reminderService from '../../services/reminderService';
 import userService from '../../services/userService';
@@ -32,17 +31,12 @@ class RemindersPage extends Component {
   async deleteReminder(reminderId) {
     try {
       const deletedReminder = await reminderService.deleteReminder(reminderId, this.state.currentUser._id);
-      // this.props.history.push(`/reminders/${this.state.currentUser._id}`);
-      console.log('deletedReminder', deletedReminder)
       
       reminderService.getReminders(this.state.currentUser._id).then(reminders => {
         this.setState({
           reminders: reminders
-        }, console.log('state set'));
+        });
       });
-      // this.setState({
-      //   deletedReminder: deletedReminder
-      // }, console.log('state set'));
     } catch(error) {
       console.log(error);
     }
@@ -52,8 +46,6 @@ class RemindersPage extends Component {
     return (
       <div>
         <h2>Your Reminders</h2>
-        {this.state.errorMsg ? (<div>{this.state.errorMsg}</div>) : null}
-
         <table className="table table-striped table-hover mx-auto w-auto">
           <thead>
             <tr>
@@ -66,7 +58,7 @@ class RemindersPage extends Component {
           <tbody>
             {this.state.reminders && this.state.reminders.map((reminder, idx) => {
               return (
-                <tr className={`table-${idx % 2 === 0 ? 'primary' : 'secondary'}`} key={idx}>
+                <tr className={`table-${idx % 2 === 0 ? 'secondary' : 'primary'}`} key={idx}>
                   <th scope="row">{reminder.title}</th>
                   <td>{reminder.reminderDate}</td>
                   <td>{reminder.reminderDate}</td>
