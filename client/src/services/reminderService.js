@@ -4,8 +4,9 @@ import userService from './userService';
 class ReminderService {
   constructor() {
     // token is passed into headers to access protected routes
+    const baseURL = process.env.NODE_ENV === 'development' ? 'http://localhost:3001' : 'http://reminders86.herokuapp.com';
     this.request = axios.create({
-      baseURL: 'http://localhost:3001',
+      baseURL: baseURL,
       headers: {
         common: {
           token: userService.getToken()

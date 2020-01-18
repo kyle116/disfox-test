@@ -3,8 +3,9 @@ import jwtDecode from 'jwt-decode';
 
 class UserService {
   constructor() {
+    const baseURL = process.env.NODE_ENV === 'development' ? 'http://localhost:3001' : 'http://reminders86.herokuapp.com';
     this.request = axios.create({
-      baseURL: 'http://localhost:3001',
+      baseURL: baseURL,
       headers: {}
     });
   }

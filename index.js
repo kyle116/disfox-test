@@ -14,7 +14,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // Connect to Mongo
-const mongoUrl = (process.env.MONGO_URL || 'mongodb://localhost/disneydb');
+const mongoUrl = process.env.NODE_ENV === 'development' ? 'mongodb://localhost/disneydb' : process.env.MONGO_URL;
 mongoose.connect(mongoUrl, { 
     useNewUrlParser: true,
     useCreateIndex: true,
